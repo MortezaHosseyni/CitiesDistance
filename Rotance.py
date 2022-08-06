@@ -28,9 +28,16 @@ geoLocater = Nominatim(user_agent="geoapiExercises")
 
 for loc in cities:
     l = geoLocater.geocode(loc)
-    locations.append((l.latitude, l.longitude))
+    locations.append([l.latitude, l.longitude])
 
-        
-for c in locations:
-    print(c)
-    print("--------------")
+
+
+    
+# Mark cities on map
+map = folium.Map(location=[45.9023988, 24.3881119], zoom_start = 8)
+counter = 0
+for point in locations:
+    folium.Marker(location=point, popup = cities[counter], icon=folium.Icon(color = 'blue')).add_to(map)
+    counter = counter + 1
+
+map.save("map.html")
