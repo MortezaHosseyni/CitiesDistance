@@ -24,7 +24,7 @@ for item in td:
 # Find cities location
 locations = []
 
-geoLocater = Nominatim(user_agent="geoapiExercises")
+geoLocater = Nominatim(user_agent="MrMean")
 
 for loc in cities:
     l = geoLocater.geocode(loc)
@@ -41,3 +41,24 @@ for point in locations:
     counter = counter + 1
 
 map.save("map.html")
+
+
+# Find distance beetwin cities
+cDistance = []
+dcount = 0
+
+while len(locations):
+    loc1 = locations[dcount]
+    dcount = dcount + 1
+    
+    if len(locations) <= dcount:
+        break
+    
+    loc2 = locations[dcount]
+    dcount = dcount + 1
+    
+    dis = distance.distance(loc1, loc2).km
+    cDistance.append(dis)
+
+
+print(cDistance)
