@@ -17,7 +17,20 @@ for item in td:
     city = re.search('<b>.*">(.*)</a></b>', str(item))
     if city:
         cities.append(city.group(1))
+
+    
+    
+    
+# Find cities location
+locations = []
+
+geoLocater = Nominatim(user_agent="geoapiExercises")
+
+for loc in cities:
+    l = geoLocater.geocode(loc)
+    locations.append((l.latitude, l.longitude))
+
         
-for c in cities:
+for c in locations:
     print(c)
     print("--------------")
