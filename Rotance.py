@@ -16,7 +16,7 @@ td = soup.find_all("td", {"style": "background-color:#FFE6BD"})
 for item in td:
     city = re.search('<b>.*">(.*)</a></b>', str(item))
     if city:
-        cities.append(city.group(1))
+        cities.append(city.group(1)+", Romania")
 
     
     
@@ -32,20 +32,21 @@ for loc in cities:
 
 
 
+
+    
+    
     
 # Mark cities on map
 map = folium.Map(location=[45.9023988, 24.3881119], zoom_start = 8)
 counter = 0
 for point in locations:
-    folium.Marker(location=point, popup = cities[counter], icon=folium.Icon(color = 'blue')).add_to(map)
+    folium.Marker(location=point, popup = cities[counter], icon=folium.Icon(color = 'orange')).add_to(map)
     counter = counter + 1
-
-map.save("map.html")
-
 
 # Find distance beetwin cities
 cDistance = []
 dcount = 0
+bcount = 0
 
 while len(locations):
     loc1 = locations[dcount]
@@ -55,10 +56,14 @@ while len(locations):
         break
     
     loc2 = locations[dcount]
-    dcount = dcount + 1
     
     dis = distance.distance(loc1, loc2).km
     cDistance.append(dis)
+    
+    # Draw line beetwin cities   
+    folium.PolyLine((loc1, loc2), popup=f"{cDistance[bcount]} KMS", color="black", weight=5, opacity=1).add_to(map)
+    bcount = bcount + 1
 
 
-print(cDistance)
+map.save("map.html")
+print("Map updated!")
