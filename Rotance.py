@@ -1,9 +1,11 @@
+from random import random
 from geopy.geocoders import Nominatim
 from geopy import distance
 from bs4 import BeautifulSoup
 import requests
 import re
 import folium
+import random
 
 
 # Find romania cities name & location
@@ -37,10 +39,14 @@ for loc in cities:
     
     
 # Mark cities on map
+colors = ['pink', 'darkblue', 'lightgreen', 'white', 'lightblue', 'gray', 'lightgray', 'purple', 'darkgreen', 'lightred', 'darkpurple', 'green', 'blue', 'red', 'darkred', 'beige', 'black', 'cadetblue', 'orange']
+
+
 map = folium.Map(location=[45.9023988, 24.3881119], zoom_start = 8)
 counter = 0
 for point in locations:
-    folium.Marker(location=point, popup = cities[counter], icon=folium.Icon(color = 'orange')).add_to(map)
+    myc = random.randint(0, len(colors) - 1)
+    folium.Marker(location=point, popup = cities[counter], icon=folium.Icon(color = colors[myc])).add_to(map)
     counter = counter + 1
 
 # Find distance beetwin cities
@@ -49,6 +55,7 @@ dcount = 0
 bcount = 0
 
 while len(locations):
+    myz = random.randint(0, len(colors) - 1)
     loc1 = locations[dcount]
     dcount = dcount + 1
     
@@ -61,7 +68,7 @@ while len(locations):
     cDistance.append(dis)
     
     # Draw line beetwin cities   
-    folium.PolyLine((loc1, loc2), popup=f"{cDistance[bcount]} KMS", color="black", weight=5, opacity=1).add_to(map)
+    folium.PolyLine((loc1, loc2), popup=f"{cDistance[bcount]} KMS", color=colors[myz], weight=5, opacity=1).add_to(map)
     bcount = bcount + 1
 
 
